@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PO_CONFIG>
+    <!-- 数据库信息配置 -->
+    <DB_CONNECTIONS>
+        <!-- VALID=TRUE 代表生成PO对象时，使用此数据库配置信息 -->
+        <DB_CONNECTION TYPE="MYSQL" VALID="TRUE">
+            <PROPERTY NAME="DB_DRIVER">com.mysql.jdbc.Driver</PROPERTY>
+            <PROPERTY NAME="DB_URL">jdbc:mysql://47.100.170.2:3306/W2G?useUnicode=true&amp;characterEncoding=UTF-8</PROPERTY>
+            <PROPERTY NAME="DB_USER">root</PROPERTY>
+            <PROPERTY NAME="DB_PASSWORD">healife605</PROPERTY>
+        </DB_CONNECTION>
+    </DB_CONNECTIONS>
+    <PO_PATH PATH="C:\Users\Me\Desktop\springbootTest\mm-entity\src\main\java" />
+    <PACKAGE NAME="com.w2g.entity" MAPPER_NAME="com.w2g.mapper" IS_GENERATOR="true">
+
+        <!--<TABLE NAME="user_info"/>-->
+
+        <!--<TABLE NAME="news"/>-->
+
+        <TABLE NAME="delay_queues"/>
+    </PACKAGE>
+</PO_CONFIG>

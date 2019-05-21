@@ -1,0 +1,108 @@
+#server 端口号
+server :
+  port : 8100
+
+#Logging 配置
+logging:
+  level:
+    org.springframework:
+      data: DEBUG
+      security: DEBUG
+
+#版本号
+w2g:
+  version: v1
+
+#spring配置
+spring :
+  rabbitmq:
+         host: 106.14.0.72
+         port: 5672
+         username: guest
+         password: guest
+  redis:
+         database: 0
+         host: 47.100.170.2
+         password:
+         port: 6379
+         timeout: 3000
+         pool:
+           max-active: 8
+           max-wait: -1
+           max-idle: 8
+           min-idle: 0
+  #setting 404 back json
+  mvc:
+      throw-exception-if-no-handler-found: true
+  #resources:
+      #add-mappings: false
+  #show sql on log for each query
+
+  jpa:
+    show-sql: true
+  # multipart Setting
+  http:
+      multipart:
+        max-file-size: 30MB
+        max-request-size: 30MB
+  datasource :
+    url : jdbc:mysql://47.100.170.2:3306/W2G
+    username : root
+    password : healife605
+
+    #创建druid数据源
+    driver-class-name : com.mysql.jdbc.Driver
+    type : com.alibaba.druid.pool.DruidDataSource
+    max-active : 20
+    initial-size : 1
+    min-idle : 3
+    max-wait : 60000
+    time-between-eviction-runs-millis : 60000
+    min-evictable-idle-time-millis : 300000
+    test-while-idle : true
+    test-on-borrow : false
+    test-on-return : false
+
+#mybatis
+#mybatis:
+ #   type-aliases-package: com.w2g.entity
+  #  mapper-locations: classpath:/mapperXml/*.xml
+
+
+mapper:
+    mappers:
+        - com.w2g.core.markerMapper.CommonMapper
+    not-empty: false
+    identity: MYSQL
+
+#pagehelper:
+    #helperDialect: mysql
+    #reasonable: true
+    #supportMethodsArguments: true
+    #params: count=countSql
+
+#server:
+#  context-path: /admin
+
+
+
+
+
+
+   # REDIS (RedisProperties)
+   #spring:
+    # redis:
+     #  database: 0
+      # host: 47.100.170.2
+       #password:
+       #port: 6379
+       #timeout: 3000
+       #pool:
+       #  max-active: 8
+        # max-wait: -1
+        # max-idle: 8
+        # min-idle: 0
+
+
+
+
