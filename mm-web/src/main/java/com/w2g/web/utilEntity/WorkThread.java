@@ -32,7 +32,7 @@ public class WorkThread implements Runnable {
             try {
                 NewsMapper newsMapper = (NewsMapper) ApplicationContextProvider.getBean("newsMapper");//使用工具手动注入注入对象信息
                 cyclicBarrier.await();
-                boolean isLock=DistributedLock.tryLock(redisPool,"1", UUID.randomUUID().toString(),11);
+                boolean isLock=DistributedLock.tryLock(redisPool,"1", UUID.randomUUID().toString(),1111);
                 if (isLock){
                     News news=new News();
                     String name=Thread.currentThread().getName();
