@@ -203,6 +203,8 @@ public class RedisServiceImpl implements RedisService {
     public void testTransaction(){
         boolean resultValue = false;
         try {
+
+            //调用redis事务方法
             resultValue = transMethod(10);
             if (resultValue==true){
                 News news=new News();
@@ -222,15 +224,18 @@ public class RedisServiceImpl implements RedisService {
     }
 
     public  boolean transMethod(int amtToSubtract) throws InterruptedException {
-        int balance;  // 余额
-        int debt;  // 负债
-        boolean isfalse=false;
-        newJedis.set("title", "100");
-        newJedis.set("title2", "0");
 
+        int var1;  // 变量值
+        boolean isfalse=false;
+
+        //为变量设置初始值，如果在事务启动后这个值被改变了，则事务判断失效
+        newJedis.set("title", "100");
+
+        //此处执行监控命令，监控title变量
         newJedis.watch("title", "title2");
 
-        balance = Integer.parseInt(newJedis.get("title"));
+        //jedis获取redis当中的变量值
+        var1 = Integer.parseInt(newJedis.get("title"));
 
 //        if (balance < amtToSubtract) {
 //            newJedis.unwatch();  // 放弃所有被监控的键
@@ -238,13 +243,12 @@ public class RedisServiceImpl implements RedisService {
 //            return false;
 //        }
 
-
-
         Transaction transaction = newJedis.multi();
-        // 扣钱
-        //transaction.set("title","200");//此处注掉，list为0，如果在此期间balance被修改，则事务失效
-        //Thread.sleep(5000);  // 在外部修改 title 或者 title2
+
+        //transaction.set("title","200");//此处注掉，list为0，如果在此期间var1被修改，则事务失效
+        //Thread.sleep(5000);  // 在外部修改 title 值
         System.out.println("stop");//此处方便我打断点对redis数据进行修改来验证事务
+
         // list为null说明事务执行失败
         List<Object> list = transaction.exec();
 
