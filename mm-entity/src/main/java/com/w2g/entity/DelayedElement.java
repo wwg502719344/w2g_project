@@ -14,7 +14,7 @@ public class DelayedElement implements Delayed {
     private final long delay; //延迟时间
     private final long expire;  //到期时间
     private final DelayQueues delayQueue;   //数据
-    private final long now; //创建时间  
+    private final long now; //创建时间
 
     public DelayedElement(long delay, DelayQueues delayQueue) {
         this.delay = delay;
