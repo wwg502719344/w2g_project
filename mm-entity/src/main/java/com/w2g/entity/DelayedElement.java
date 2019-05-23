@@ -1,6 +1,5 @@
 package com.w2g.entity;
 
-import javax.persistence.Entity;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 

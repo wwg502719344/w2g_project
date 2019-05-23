@@ -200,15 +200,15 @@ public class RedisServiceImpl implements RedisService {
      * 测试redis事务
      */
     @Override
-    public void testTransaction(){
+    public void testTransaction(int type){
         boolean resultValue = false;
         try {
 
             //调用redis事务方法
-            resultValue = transMethod(10);
+            resultValue = transMethod(type);
             if (resultValue==true){
                 News news=new News();
-                news.setTitle("tt");
+                news.setTitle("redis-write-success");
                 newsMapper.insert(news);
                 newJedis.set("title", "300");
             }
@@ -218,12 +218,13 @@ public class RedisServiceImpl implements RedisService {
         System.out.println("result is " + resultValue);
 
         int title = Integer.parseInt(newJedis.get("title"));
-        int title2 = Integer.parseInt(newJedis.get("title2"));
+        //int title2 = Integer.parseInt(newJedis.get("title2"));
 
-        System.out.printf("title: %d, title2: %d\n", title, title2);
+        //System.out.printf("title: %d, title2: %d\n", title, title2);
+        System.out.printf("title: %d\n", title);
     }
 
-    public  boolean transMethod(int amtToSubtract) throws InterruptedException {
+    public  boolean transMethod(int type) throws InterruptedException {
 
         int var1;  // 变量值
         boolean isfalse=false;
@@ -243,18 +244,43 @@ public class RedisServiceImpl implements RedisService {
 //            return false;
 //        }
 
-        Transaction transaction = newJedis.multi();
+        //type为1时该事务需要15s才能执行完，否则立刻执行完
+        //目的是校验redis事务在同一时间是否只能执行一个事务
+        if (type==1){
 
-        //transaction.set("title","200");//此处注掉，list为0，如果在此期间var1被修改，则事务失效
-        //Thread.sleep(5000);  // 在外部修改 title 值
-        System.out.println("stop");//此处方便我打断点对redis数据进行修改来验证事务
+            Transaction transaction = newJedis.multi();
 
-        // list为null说明事务执行失败
-        List<Object> list = transaction.exec();
+            //transaction.set("title","200");//此处注掉，list为0，如果在此期间var1被修改，则事务失效
+            Thread.sleep(15000);  // 在外部修改 title 值
+            System.out.println("stop");//此处方便我打断点对redis数据进行修改来验证事务
 
-        if (list!=null){//如果事务执行成功
-            isfalse=true;
+            News news=new News();
+            news.setTitle("redis1-first");
+            news.setCreateDate(new Date());
+            newsMapper.insert(news);
+
+            // list为null说明事务执行失败
+            List<Object> list = transaction.exec();
+
+            if (list!=null){//如果事务执行成功
+                isfalse=true;
+            }
+        }else{
+            Transaction transaction = newJedis.multi();
+            //transaction.set("title","200");//此处注掉，list为0，如果在此期间var1被修改，则事务失效
+            News news=new News();
+            news.setTitle("redis2-two");
+            news.setCreateDate(new Date());
+            newsMapper.insert(news);
+
+            // list为null说明事务执行失败
+            List<Object> list = transaction.exec();
+
+            if (list!=null){//如果事务执行成功
+                isfalse=true;
+            }
         }
+
         return isfalse;
     }
 }

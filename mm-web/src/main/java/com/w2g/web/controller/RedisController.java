@@ -44,11 +44,19 @@ public class RedisController {
     @ApiOperation(value="redis测试-redis事务实现")
     public ResponseData testTransaction(
     ) throws InterruptedException {
-
-        redisService.testTransaction();
+        int type=2;
+        redisService.testTransaction(type);
         return ResponseData.newSuccess();
     }
 
+    @PostMapping("/transaction/testTransaction2")
+    @ApiOperation(value="redis测试2-redis事务实现-睡眠15秒",notes = "验证redis事务是不是同一时间只能执行一个客户端的事务")
+    public ResponseData testTransaction2(
+    ) throws InterruptedException {
+        int type=1;
+        redisService.testTransaction(type);
+        return ResponseData.newSuccess();
+    }
 
     @GetMapping("/A/strSet")
     @ApiOperation(value="redis测试-string操作，常规设置key－value")

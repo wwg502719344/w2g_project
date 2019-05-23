@@ -56,7 +56,7 @@ public interface RedisService {
 
     void postMember(Integer[] blogsIds);
 
-    void testTransaction() throws InterruptedException;
+    void testTransaction(int type) throws InterruptedException;
 
 }
 

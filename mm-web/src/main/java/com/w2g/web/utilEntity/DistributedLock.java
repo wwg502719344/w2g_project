@@ -2,6 +2,7 @@ package com.w2g.web.utilEntity;
 
 /**
  * Created by W2G on 2019/5/20.
+ * 分布式锁实现类
  */
 
 import java.util.Collections;
@@ -36,6 +37,7 @@ public class DistributedLock {
     }
 
     /**
+     * 加锁操作
      * @param lockKey
      * @param requestId
      * @param expireTime
@@ -49,6 +51,10 @@ public class DistributedLock {
         try {
 
             jedis = redisPool.getJedis();
+            //lockKey是set的key值
+            //requestId被用作解锁时的操作，是唯一值，用以保证解锁操作是加锁操作的,使用UUID.randomUUID()获取
+            //SET_IF_NOT_EXIST，不存在的时候添加，存在的时候不做操作
+            //SET_WITH_EXPIRE_TIME，设置过期时间
             String result = jedis.set(lockKey, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, expireTime);
 
             if (LOCK_SUCCESS.equals(result)) {
@@ -82,6 +88,7 @@ public class DistributedLock {
     }
 
     /**
+     * 解锁操作
      * @param lockKey
      * @param requestId
      * @return
@@ -90,6 +97,7 @@ public class DistributedLock {
 
         validParam(jedisPool, lockKey, requestId, 1);
 
+        //lua脚本语言
         String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
 
         Jedis jedis = null;
