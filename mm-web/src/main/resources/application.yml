@@ -16,13 +16,13 @@ w2g:
 #spring配置
 spring :
   rabbitmq:
-         host: 106.14.0.72
+         host: ip
          port: 5672
          username: guest
          password: guest
   redis:
          database: 0
-         host: 47.100.170.2
+         host: ip
          password:
          port: 6379
          timeout: 3000
@@ -46,7 +46,7 @@ spring :
         max-file-size: 30MB
         max-request-size: 30MB
   datasource :
-    url : jdbc:mysql://47.100.170.2:3306/W2G
+    url : jdbc:mysql://ip:3306/W2G
     username : root
     password : healife605
 
