@@ -92,6 +92,8 @@ mapper:
 
 
 
+
+
    # REDIS (RedisProperties)
    #spring:
     # redis:
