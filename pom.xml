@@ -15,7 +15,7 @@
     <modules>
         <module>mm-web</module>
         <module>mm-service</module>
-        <module>mm-repo</module>
+        <!--<module>mm-repo</module>-->
         <module>mm-entity</module>
     </modules>
 
