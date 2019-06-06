@@ -85,15 +85,6 @@ mapper:
 #  context-path: /admin
 
 
-
-
-
-
-
-
-
-
-
    # REDIS (RedisProperties)
    #spring:
     # redis:
