@@ -20,7 +20,9 @@ import java.util.Date;
 import java.util.concurrent.CyclicBarrier;
 
 /**
- * Created by W2G on 2019/7/23.
+ * Created by W2G on 2019/8/1.
+ * 该接口通过使用并发工具cyclicbarrier来实现对同一数据的并发访问，存在则修改，不存在则新增
+ * 通过lock对线程进行加锁出来
  */
 @RestController
 @RequestMapping(value="${w2g.version}/AQS")
