@@ -35,19 +35,24 @@ public class AQSThread implements Runnable {
                 cyclicBarrier.await();
                 lock.lock();
                 MapperFilter mapperFilter=MapperFilter.custom(News.class)
-                        .addFilter("title", FilterType.EQ,"tt")
+                        .addFilter("updateNote", FilterType.EQ,"empty")
                         .build();
 
                 List<News> n=newsMapper.selectByCondition(mapperFilter.getCondition());
 
                 if (!n.isEmpty()){
                     News v=new News();
-                    v.setTitle("asd");
+                    v.setTitle("up by thread");
                     v.setId(n.get(0).getId());
+                    v.setUpdateDate(new Date());
+                    v.setUpdateNote("up");
                     newsMapper.updateByPrimaryKeySelective(v);
                 }else{
                     News v1=new News();
-                    v1.setTitle("tts");
+                    v1.setTitle("add by thread");
+                    v1.setCreateDate(new Date());
+                    v1.setUpdateDate(new Date());
+                    v1.setUpdateNote("add");
                     newsMapper.insertSelective(v1);
                 }
             } catch (Exception e) {
