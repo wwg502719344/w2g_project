@@ -1,5 +1,6 @@
 package com.w2g.service;
 
+import com.w2g.entity.UserInfo;
 import redis.clients.jedis.ScanResult;
 
 import java.util.List;
@@ -58,6 +59,9 @@ public interface RedisService {
 
     void testTransaction(int type) throws InterruptedException;
 
+    void testRedisHmset(UserInfo userInfo);
+
+    Object getRedisHmset(String key);
 }
 
 

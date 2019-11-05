@@ -1,5 +1,6 @@
 package com.w2g.web.controller;
 
+import com.w2g.entity.UserInfo;
 import com.w2g.service.RedisService;
 import com.w2g.utils.ResponseData;
 import com.w2g.web.utilEntity.WorkThread;
@@ -39,6 +40,8 @@ public class RedisController {
         }
         return ResponseData.newSuccess();
     }
+
+
 
     @PostMapping("/transaction/testTransaction")
     @ApiOperation(value="redis测试-redis事务实现")
@@ -151,5 +154,21 @@ public class RedisController {
         return ResponseData.newSuccess();
     }
 
+    @PostMapping("/syn/testRedisHmset")
+    @ApiOperation(value="redis测试-redis实现实体存值")
+    public ResponseData testRedisHmset(
+            @ApiParam("用户信息") @Validated @RequestBody UserInfo userInfo
+    ) throws InterruptedException {
+        redisService.testRedisHmset(userInfo);
+        return ResponseData.newSuccess();
+    }
 
+    @GetMapping("/getRedisHmset")
+    @ApiOperation(value="redis测试-redis获取实体取值")
+    public ResponseData getRedisHmset(
+            @ApiParam(value="key",required = true)@RequestParam String key
+    ) throws InterruptedException {
+        Object userInfo=redisService.getRedisHmset(key);
+        return ResponseData.newSuccess(userInfo);
+    }
 }

@@ -1,9 +1,13 @@
 package com.w2g.service.impl;
 
 import com.w2g.entity.News;
+import com.w2g.entity.UserInfo;
 import com.w2g.mapper.NewsMapper;
 import com.w2g.service.RedisService;
 import com.w2g.utils.RedisPool;
+import net.sf.ezmorph.object.DateMorpher;
+import net.sf.json.util.JSONUtils;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -11,7 +15,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
 import redis.clients.jedis.Transaction;
-
+import net.sf.json.JSONObject;
 import java.util.*;
 
 /**
@@ -196,6 +200,8 @@ public class RedisServiceImpl implements RedisService {
         newJedis.hmset("forelist",map);
     }
 
+
+
     /**
      * 测试redis事务
      */
@@ -282,6 +288,38 @@ public class RedisServiceImpl implements RedisService {
         }
 
         return isfalse;
+    }
+
+    @Override
+    public void testRedisHmset(UserInfo userInfo) {
+        Map map = new HashedMap();
+        newJedis.set("userInfo", serialize(userInfo));
+    }
+
+    @Override
+    public Object getRedisHmset(String key) {
+
+        String getByte = newJedis.get("userInfo");
+        if (getByte==null){
+            System.out.println("asdasdasda");
+        }
+        Object getObject = unserizlize(getByte);
+        return getObject;
+    }
+
+    private static String serialize(Object object) {
+        JSONObject jsonObject = JSONObject.fromObject(object);
+        String getString = jsonObject.toString();
+        return getString;
+
+    }
+
+    private static Object unserizlize(String jsonString) {
+        new JSONObject();
+        JSONObject jObject = JSONObject.fromObject(jsonString);
+        JSONUtils.getMorpherRegistry().registerMorpher(new DateMorpher(new String[] { "MM/dd/yyyy HH:mm:ss" }));
+        Object jsonObject = JSONObject.toBean(jObject, UserInfo.class);
+        return jsonObject;
     }
 }
 
